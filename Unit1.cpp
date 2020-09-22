@@ -1,0 +1,83 @@
+//---------------------------------------------------------------------------
+
+#include <vcl.h>
+#include <iostream.h>
+#include <string.h>
+#pragma hdrstop
+
+#include "Unit1.h"
+//---------------------------------------------------------------------------
+#pragma package(smart_init)
+#pragma resource "*.dfm"
+TForm1 *Form1;
+//---------------------------------------------------------------------------
+
+//Используя шаблон делегирования реализовать класс вывода табличных данных в StringGrid и в Memo
+
+   class A {
+  public:
+  void memo() {
+  Form1->Memo1->Clear();
+  Form1->Memo1->ScrollBars=ssVertical;
+   int i, j;
+   for(i = 1; i <= 4; i++)
+   {
+         for(j = 1; j <= 4; j++)
+         {
+            Form1->Memo1->Lines->Add("Столбец "+IntToStr(i)+"  Строка "+IntToStr(j));
+            Form1->Memo1->Lines->Add("- - - - - - - - - - - - - - - - - - -");
+            Form1->Memo1->Lines->Add("              "+IntToStr(i)+"+"+IntToStr(j)+"  ");
+            Form1->Memo1->Lines->Add("- - - - - - - - - - - - - - - - - - -");
+            }
+        }
+  }
+  void grid() {
+  int i, j;
+  for(i = 1; i < Form1->StringGrid1->ColCount; i++)
+  Form1->StringGrid1->Cells[i][0] = "Cтолбец " + IntToStr(i);
+  for(i = 1; i < Form1->StringGrid1->RowCount; i++)
+ {
+  Form1->StringGrid1->Cells[0][i] = "Cтрока " + IntToStr(i);
+  for(j = 1; j < Form1->StringGrid1->RowCount; j++)
+  {
+  Form1->StringGrid1->Cells[j][i] = IntToStr(i) + "+" + IntToStr(j);
+  }
+ }
+  }
+   };
+
+   class B {
+  private:
+  A* a;
+  public:
+  B()
+  {
+  a = new A();
+  }
+
+  ~B()
+  {
+  delete a;
+  }
+
+  void memo() { a->memo(); }
+  void grid() { a->grid(); }
+  };
+
+
+__fastcall TForm1::TForm1(TComponent* Owner)
+        : TForm(Owner)
+{
+      B *b = new B();
+
+b->memo();
+
+b->grid();
+
+delete b;
+
+}
+
+//---------------------------------------------------------------------------
+
+
