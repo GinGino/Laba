@@ -1,5 +1,4 @@
 //---------------------------------------------------------------------------
-
 #include <vcl.h>
 #include <iostream.h>
 #include <string.h>
@@ -14,7 +13,11 @@ TForm1 *Form1;
 
 //Èñïîëüçóÿ øàáëîí äåëåãèðîâàíèÿ ðåàëèçîâàòü êëàññ âûâîäà òàáëè÷íûõ äàííûõ â StringGrid è â Memo
 
-   class A {
+   class I {
+public:
+virtual void tabl() = 0;
+};
+   class A : public I{
   public:
   void tabl() {
   Form1->Memo1->Clear();
@@ -34,7 +37,7 @@ TForm1 *Form1;
 
    };
 
-   class B {
+   class B : public I{
    public:
   void tabl() {
   int i, j;
@@ -52,34 +55,71 @@ TForm1 *Form1;
   }
   };
 
-  class C {
-   private:
-  A* a;
-  B* b;
+  class C : public I{
   public:
-  C()
-  {
-  a = new A();
-  b = new B();
-  }
 
-  ~C()
-  {
-  delete a;
-  delete b;
-  }
+// Êîíñòðóêòîð
 
-  void tabl() {
-  a->tabl();
-  b->tabl(); }
+C() : m_i ( new A() ) { }
+
+// Äåñòðóêòîð
+
+virtual ~C() {
+
+delete m_i;
+
+}
+
+void tabl() { m_i->tabl(); }
+
+// Ýòèìè ìåòîäàìè ìåíÿåì ïîëå-îáúåêò, ÷üè ìåòîäû áóäåì äåëåãèðîâàòü
+
+void toA() {
+
+delete m_i;
+
+m_i = new A();
+
+}
+
+void toB() {
+
+delete m_i;
+
+m_i = new B();
+
+}
+
+private:
+
+// Îáúÿâëÿåì îáúåêò ìåòîäû êîòîðîãî áóäåì äåëåãèðîâàòü
+
+I * m_i;
+
   };
 
 
 __fastcall TForm1::TForm1(TComponent* Owner)
         : TForm(Owner)
 {
-      C *c = new C();
 
-c->tabl();
- delete c;
 }
+
+//---------------------------------------------------------------------------
+
+
+void __fastcall TForm1::Button1Click(TObject *Sender)
+{
+   C c;
+  c.toA();
+  c.tabl();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::Button2Click(TObject *Sender)
+{
+C c;
+c.toB();
+c.tabl();
+}
+//---------------------------------------------------------------------------
