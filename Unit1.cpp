@@ -12,7 +12,7 @@
 TForm1 *Form1;
 //---------------------------------------------------------------------------
 
-//Используя шаблон делегирования реализовать класс вывода табличных данных в StringGrid и в Memo
+//Г€Г±ГЇГ®Г«ГјГ§ГіГї ГёГ ГЎГ«Г®Г­ Г¤ГҐГ«ГҐГЈГЁГ°Г®ГўГ Г­ГЁГї Г°ГҐГ Г«ГЁГ§Г®ГўГ ГІГј ГЄГ«Г Г±Г± ГўГ»ГўГ®Г¤Г  ГІГ ГЎГ«ГЁГ·Г­Г»Гµ Г¤Г Г­Г­Г»Гµ Гў StringGrid ГЁ Гў Memo
 
    class A {
   public:
@@ -24,60 +24,63 @@ TForm1 *Form1;
    {
          for(j = 1; j <= 4; j++)
          {
-            Form1->Memo1->Lines->Add("Столбец "+IntToStr(i)+"  Строка "+IntToStr(j));
+            Form1->Memo1->Lines->Add("Г‘ГІГ®Г«ГЎГҐГ¶ "+IntToStr(i)+"  Г‘ГІГ°Г®ГЄГ  "+IntToStr(j));
             Form1->Memo1->Lines->Add("- - - - - - - - - - - - - - - - - - -");
             Form1->Memo1->Lines->Add("              "+IntToStr(i)+"+"+IntToStr(j)+"  ");
             Form1->Memo1->Lines->Add("- - - - - - - - - - - - - - - - - - -");
             }
         }
   }
+
+   };
+
+   class B {
+   public:
   void grid() {
   int i, j;
   for(i = 1; i < Form1->StringGrid1->ColCount; i++)
-  Form1->StringGrid1->Cells[i][0] = "Cтолбец " + IntToStr(i);
+  Form1->StringGrid1->Cells[i][0] = "CГІГ®Г«ГЎГҐГ¶ " + IntToStr(i);
   for(i = 1; i < Form1->StringGrid1->RowCount; i++)
  {
-  Form1->StringGrid1->Cells[0][i] = "Cтрока " + IntToStr(i);
+  Form1->StringGrid1->Cells[0][i] = "CГІГ°Г®ГЄГ  " + IntToStr(i);
   for(j = 1; j < Form1->StringGrid1->RowCount; j++)
   {
   Form1->StringGrid1->Cells[j][i] = IntToStr(i) + "+" + IntToStr(j);
   }
  }
-  }
-   };
 
-   class B {
-  private:
+  }
+  };
+
+  class C {
+   private:
   A* a;
+  B* b;
   public:
-  B()
+  C()
   {
   a = new A();
+  b = new B();
   }
 
-  ~B()
+  ~C()
   {
   delete a;
+  delete b;
   }
 
   void memo() { a->memo(); }
-  void grid() { a->grid(); }
+  void grid() { b->grid(); }
   };
 
 
 __fastcall TForm1::TForm1(TComponent* Owner)
         : TForm(Owner)
 {
-      B *b = new B();
+      C *c = new C();
 
-b->memo();
+c->memo();
 
-b->grid();
-
-delete b;
+c->grid();
 
 }
-
-//---------------------------------------------------------------------------
-
-
