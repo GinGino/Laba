@@ -16,7 +16,7 @@ TForm1 *Form1;
 
    class A {
   public:
-  void memo() {
+  void tabl() {
   Form1->Memo1->Clear();
   Form1->Memo1->ScrollBars=ssVertical;
    int i, j;
@@ -36,7 +36,7 @@ TForm1 *Form1;
 
    class B {
    public:
-  void grid() {
+  void tabl() {
   int i, j;
   for(i = 1; i < Form1->StringGrid1->ColCount; i++)
   Form1->StringGrid1->Cells[i][0] = "Còîëáåö " + IntToStr(i);
@@ -69,8 +69,9 @@ TForm1 *Form1;
   delete b;
   }
 
-  void memo() { a->memo(); }
-  void grid() { b->grid(); }
+  void tabl() {
+  a->tabl();
+  b->tabl(); }
   };
 
 
@@ -79,8 +80,6 @@ __fastcall TForm1::TForm1(TComponent* Owner)
 {
       C *c = new C();
 
-c->memo();
-
-c->grid();
-
+c->tabl();
+ delete c;
 }
