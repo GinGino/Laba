@@ -57,45 +57,23 @@ virtual void tabl() = 0;
 
   class C : public I{
   public:
-
-// Êîíñòðóêòîð
-
 C() : m_i ( new A() ) { }
-
-// Äåñòðóêòîð
-
 virtual ~C() {
-
 delete m_i;
-
 }
 
 void tabl() { m_i->tabl(); }
-
-// Ýòèìè ìåòîäàìè ìåíÿåì ïîëå-îáúåêò, ÷üè ìåòîäû áóäåì äåëåãèðîâàòü
-
 void toA() {
-
 delete m_i;
-
 m_i = new A();
-
 }
 
 void toB() {
-
 delete m_i;
-
 m_i = new B();
-
 }
-
 private:
-
-// Îáúÿâëÿåì îáúåêò ìåòîäû êîòîðîãî áóäåì äåëåãèðîâàòü
-
 I * m_i;
-
   };
 
 
